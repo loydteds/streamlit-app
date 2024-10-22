@@ -67,3 +67,58 @@ else:
         st.subheader("No Available Data")
         st.write(f"No available data for '{selected_product}' with the selected filter '{date_filter}'.")
 
+import pandas as pd
+import streamlit as st
+
+# Function to load data
+@st.cache_data
+def load_data():
+    data = pd.read_csv('Superstore Dataset.csv')
+    return data
+
+# Load the data
+data = load_data()
+
+# Display the original data to verify it's loaded correctly
+st.write("Original Data", data)
+
+# Identify the summed transaction
+summed_transaction = data[data['Sales'] == 7312.134]
+
+# Display the identified summed transaction
+st.write("Summed Transaction", summed_transaction)
+
+# Correct the transactions by splitting the summed transaction
+# Original transactions data
+original_transactions = [
+    {
+        'Order Date': '2016-09-30',
+        'Ship Mode': 'Standard Class',
+        'Segment': 'Consumer',
+        'Country': 'United States',
+        'City': 'Philadelphia',
+        'State': 'Pennsylvania',
+        'Sales': 3083.43,
+    },
+    {
+        'Order Date': '2016-09-30',
+        'Ship Mode': 'Standard Class',
+        'Segment': 'Consumer',
+        'Country': 'United States',
+        'City': 'New York City',
+        'State': 'New York',
+        'Sales': 4228.704,
+    }
+]
+
+# Remove the summed transaction
+data = data[data['Sales'] != 7312.134]
+
+# Add the original transactions
+for transaction in original_transactions:
+    data = data.append(transaction, ignore_index=True)
+
+# Display the corrected data
+st.write("Corrected Data", data)
+
+
