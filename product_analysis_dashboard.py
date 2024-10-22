@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 # Load the dataset
-@st.cache
+@st.cache_data
 def load_data():
     data = pd.read_csv('Superstore Dataset.csv')
     return data
@@ -30,9 +30,6 @@ selected_product = st.selectbox("Select a Product", products)
 
 # Filter data by selected product
 product_data = filtered_data[filtered_data['Product Name'] == selected_product]
-
-# Display product details
-#st.subheader(f"Details for '{selected_product}'")
 
 # Date range filter with an option for "No Filter"
 date_filter = st.selectbox("Filter by", ["No Filter", "Days", "Weeks", "Months", "Years"])
@@ -69,3 +66,4 @@ else:
     else:
         st.subheader("No Available Data")
         st.write(f"No available data for '{selected_product}' with the selected filter '{date_filter}'.")
+
