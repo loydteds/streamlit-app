@@ -32,7 +32,7 @@ selected_product = st.selectbox("Select a Product", products)
 product_data = filtered_data[filtered_data['Product Name'] == selected_product]
 
 # Display product details
-st.subheader(f"Details for '{selected_product}'")
+#st.subheader(f"Details for '{selected_product}'")
 
 # Date range filter
 date_filter = st.selectbox("Filter by", ["Days", "Weeks", "Months", "Years"])
