@@ -70,18 +70,6 @@ else:
 import pandas as pd
 import streamlit as st
 
-# Function to load data
-@st.cache_data
-def load_data():
-    data = pd.read_csv('Superstore Dataset.csv')
-    return data
-
-# Load the data
-data = load_data()
-
-# Display the original data to verify it's loaded correctly
-st.write("Original Data", data)
-
 # Identify the summed transaction
 summed_transaction = data[data['Sales'] == 7312.134]
 
