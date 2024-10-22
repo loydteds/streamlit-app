@@ -3,12 +3,15 @@ import pandas as pd
 import numpy as np
 
 # Load the dataset
-@st.cache_data
+@st.cache
 def load_data():
     data = pd.read_csv('Superstore Sales Dataset.csv')
     return data
 
 data = load_data()
+
+# Convert the 'Order Date' column to datetime
+data['Order Date'] = pd.to_datetime(data['Order Date'], format='%d/%m/%Y', errors='coerce')
 
 # Set the title of the dashboard
 st.title("Product Analysis Dashboard")
@@ -33,16 +36,17 @@ st.subheader(f"Details for '{selected_product}'")
 
 # Date range filter
 date_filter = st.selectbox("Filter by", ["Days", "Weeks", "Months", "Years"])
-product_data['Order Date'] = pd.to_datetime(product_data['Order Date'])
-product_data.set_index('Order Date', inplace=True)
-
 if date_filter == "Days":
+    product_data.set_index('Order Date', inplace=True)
     product_data = product_data.resample('D').sum().reset_index()
 elif date_filter == "Weeks":
+    product_data.set_index('Order Date', inplace=True)
     product_data = product_data.resample('W').sum().reset_index()
 elif date_filter == "Months":
+    product_data.set_index('Order Date', inplace=True)
     product_data = product_data.resample('M').sum().reset_index()
 elif date_filter == "Years":
+    product_data.set_index('Order Date', inplace=True)
     product_data = product_data.resample('Y').sum().reset_index()
 
 # Display filtered data
