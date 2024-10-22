@@ -53,5 +53,5 @@ elif date_filter == "Years":
 st.write(product_data)
 
 # Display transaction details
-st.subheader(f"Transaction Details for '{selected_product}'")
+st.subheader(f'{selected_product}')
 st.write(product_data[['Order Date', 'Ship Date', 'Ship Mode', 'City', 'State', 'Postal Code', 'Region', 'Category', 'Sales']])
