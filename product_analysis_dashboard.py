@@ -34,24 +34,38 @@ product_data = filtered_data[filtered_data['Product Name'] == selected_product]
 # Display product details
 #st.subheader(f"Details for '{selected_product}'")
 
-# Date range filter
-date_filter = st.selectbox("Filter by", ["Days", "Weeks", "Months", "Years"])
-if date_filter == "Days":
-    product_data.set_index('Order Date', inplace=True)
-    product_data = product_data.resample('D').sum().reset_index()
-elif date_filter == "Weeks":
-    product_data.set_index('Order Date', inplace=True)
-    product_data = product_data.resample('W').sum().reset_index()
-elif date_filter == "Months":
-    product_data.set_index('Order Date', inplace=True)
-    product_data = product_data.resample('M').sum().reset_index()
-elif date_filter == "Years":
-    product_data.set_index('Order Date', inplace=True)
-    product_data = product_data.resample('Y').sum().reset_index()
+# Date range filter with an option for "No Filter"
+date_filter = st.selectbox("Filter by", ["No Filter", "Days", "Weeks", "Months", "Years"])
 
-# Display filtered data
-st.write(product_data)
+# Initialize a variable to track if any information should be displayed
+display_info = False
 
-# Display transaction details
-st.subheader(f'{selected_product}')
-st.write(product_data[['Order Date', 'Ship Date', 'Ship Mode', 'City', 'State', 'Postal Code', 'Region', 'Category', 'Sales']])
+if date_filter != "No Filter":
+    product_data.set_index('Order Date', inplace=True)
+    if date_filter == "Days":
+        product_data = product_data.resample('D').sum().reset_index()
+    elif date_filter == "Weeks":
+        product_data = product_data.resample('W').sum().reset_index()
+    elif date_filter == "Months":
+        product_data = product_data.resample('M').sum().reset_index()
+    elif date_filter == "Years":
+        product_data = product_data.resample('Y').sum().reset_index()
+        
+    # Filter out empty rows in specified columns
+    filtered_output = product_data[['Order Date', 'Ship Date', 'Ship Mode', 'Segment', 'Country', 'City', 'State', 'Sales']]
+    filtered_output = filtered_output.dropna(how='any')  # Remove rows with any empty values
+
+    # Set to True since we are displaying filtered data
+    display_info = not filtered_output.empty
+
+# Display product details only if there is data to show
+if display_info:
+    st.subheader(f'{selected_product}')
+    st.write(filtered_output)
+else:
+    if date_filter == "No Filter":
+        st.subheader("No Filter Selected")
+        st.write("No information to display. Please select a filter to view the details.")
+    else:
+        st.subheader("No Available Data")
+        st.write(f"No available data for '{selected_product}' with the selected filter '{date_filter}'.")
