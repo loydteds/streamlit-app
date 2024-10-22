@@ -24,7 +24,7 @@ selected_sub_category = st.selectbox("Select a Sub-Category", sub_categories)
 filtered_data = data[data['Sub-Category'] == selected_sub_category]
 
 # Display products in the selected sub-category
-st.subheader(f"Products in '{selected_sub_category}'")
+st.subheader(f'{selected_sub_category}')
 products = filtered_data['Product Name'].unique()
 selected_product = st.selectbox("Select a Product", products)
 
