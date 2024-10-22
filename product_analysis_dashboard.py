@@ -51,9 +51,9 @@ if date_filter != "No Filter":
     elif date_filter == "Years":
         product_data = product_data.resample('Y').sum().reset_index()
         
-    # Filter out empty rows in specified columns
-    filtered_output = product_data[['Order Date', 'Ship Date', 'Ship Mode', 'Segment', 'Country', 'City', 'State', 'Sales']]
-    filtered_output = filtered_output.dropna(how='any')  # Remove rows with any empty values
+    # Filter out rows where Sales are zero or NaN
+    filtered_output = product_data[['Ship Date', 'Ship Mode', 'Segment', 'Country', 'City', 'State', 'Sales']]
+    filtered_output = filtered_output[filtered_output['Sales'] > 0].dropna()  # Only keep rows where Sales > 0 and remove NaNs
 
     # Set to True since we are displaying filtered data
     display_info = not filtered_output.empty
