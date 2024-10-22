@@ -5,7 +5,7 @@ import numpy as np
 # Load the dataset
 @st.cache
 def load_data():
-    data = pd.read_csv('Superstore Sales Dataset.csv')
+    data = pd.read_csv('Superstore Dataset.csv')
     return data
 
 data = load_data()
